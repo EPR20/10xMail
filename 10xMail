@@ -1,0 +1,141 @@
+        ###Used for sending Emails###
+import smtplib
+import imaplib
+import email
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+import os
+import time
+import sys
+import random
+
+
+        ###Everything Defined###
+"""msg is for send_email and msg2 
+is for the attachment subject"""
+
+###AT&T = "@mms.att.net for pics"
+###Verizon = "@vzwpix.com for pics" "@vtext.com for message"
+sender = "YOUR EMAIL"
+receiver = "VICTEMS phone #/ or email"
+password = "YOUR PASSWORD" #You have to set up the double authentication for apps, if      using gmail     and use the pass given
+msg = "Hello"
+msg2 = ""
+server = smtplib.SMTP('smtp.gmail.com:587')
+
+        ###Counting down till program executes###
+def countdown(t):
+for i in range(t,0,-1):
+    print('SHOWTIME IN    %d seconds\r' %i)
+    sys.stdout.flush()
+    time.sleep(1)
+
+
+
+        ###Accessing server for authentication###
+def send_email(sender, receiver, password, msg):
+server = smtplib.SMTP('smtp.gmail.com:587')
+server.ehlo()
+server.starttls()
+
+
+        ###Logging into Email###
+server.login(sender, password)
+server.sendmail(sender,receiver, msg)
+server.quit()
+print("MSG SENT")
+time.sleep(20)
+
+
+
+        ###Randomly picking pictures###
+def random_pic():
+attachments = ['C:\\Users\\BOB\\Desktop\\TheFile\\1.jpg'] # Use the path to the   image/images you       would like to send
+x = random.randint(0,19) # This is for the number of pics you have, I had 20 pics
+if x ==0:
+    return attachments[0]
+elif x ==1:
+    return attachments[1]
+elif x ==2:
+    return attachments[2]
+elif x ==3:
+    return attachments[3]
+elif x ==4:
+    return attachments[4]
+elif x ==5:
+    return attachments[5]
+elif x ==6:
+    return attachments[6]
+elif x ==7:
+    return attachments[7]
+elif x ==8:
+    return attachments[8]
+elif x ==9:
+    return attachments[9]
+elif x ==10:
+    return attachments[10]
+elif x ==11:
+    return attachments[11]
+elif x ==12:
+    return attachments[12]
+elif x ==13:
+    return attachments[13]
+elif x ==14:
+    return attachments[14]
+elif x ==15:
+    return attachments[15]
+elif x ==16:
+    return attachments[16]
+elif x ==17:
+    return attachments[17]
+elif x ==18:
+    return attachments[18]
+elif x ==19:
+    return attachments[19]
+
+
+
+        ###Sends the random attachment to victim###
+def send_image(msg2):
+###List of attachments###
+attachments = [random_pic()]
+outer = MIMEMultipart()
+outer['Subject'] = msg2
+
+
+###Add the attachments to the message###
+for file in attachments:
+    try:
+        with open(file, 'rb') as fp:
+            msg2 = MIMEBase('application', "octet-stream")
+            msg2.set_payload(fp.read())
+        encoders.encode_base64(msg2)
+        msg2.add_header('Content-Disposition', 'attachments',                      filename=os.path.basename(file))
+        outer.attach(msg2)
+    except:
+        print("Unable to open one of the attachments.")
+        raise
+
+composed = outer.as_string()
+
+server = smtplib.SMTP('smtp.gmail.com:587')
+server.ehlo()
+server.starttls()
+server.login(sender, password)
+server.sendmail(sender,receiver,composed)
+server.quit()
+print("IMAGE SENT")
+time.sleep(20)
+
+
+        ###Main Functions Of Program###
+
+countdown(10)# This is the countdown till the program executes, set it to however many secs you  want, it is set to 10 right now.
+
+send_email(sender, receiver, password, msg)
+
+[send_image(msg2)for x in range(15)]# This is the number of random pics you want to send, it is set to 15 right now.
+
+
+print("Finished")

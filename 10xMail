@@ -25,6 +25,7 @@ msg2 = ""
 server = smtplib.SMTP('smtp.gmail.com:587')
 
 			###Counting down till program executes###
+			#TODO: Refactor This
 def countdown(t):
 	for i in range(t,0,-1):
 		print('SHOWTIME IN    %d seconds\r' %i)
